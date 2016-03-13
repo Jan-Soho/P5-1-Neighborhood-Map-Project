@@ -241,47 +241,6 @@ var ViewModel = function() {
         self.Locationlist().forEach(makeMarker);
     };
 
-    /* // For autocomplete and search filter in the search bar
-     var matchedLocation = [];
-
-     // Using jquery autocomplete
-     $("#searchBar").autocomplete({
-         // Defining source with all the location name's
-         source: self.locationNameAuto,
-         minLength: 0,
-         response: function(event, locationName) {
-             if (locationName.content) {
-                 matchedLocation = [];
-                 // As we only need the data response, the menu is always closed
-                 $("#searchBar").autocomplete("close");
-                 // Collecting id's of matched locations
-                 for (var i = 0; i < locationName.content.length; i++) {
-                     matchedLocation.push(locationName.content[i].id);
-                 }
-                 showMatchedLocations(matchedLocation);
-             } else {
-                 showMatchedLocations("all");
-             }
-         }
-     });
-
-     // Renders the filtered markers
-     var showMatchedLocations = function(matchedLocation) {
-         reloadMarkers();
-         self.Locationlist().forEach(function(LocationItem) {
-             // Check si id same as matchedLocation array
-             if (matchedLocation === "all") {
-                 LocationItem.isVisible(true);
-             } else if ($.inArray(LocationItem.id(), matchedLocation) === -1) {
-                 LocationItem.isVisible(false);
-             } else {
-                 LocationItem.isVisible(true);
-             }
-         });
-         // Recreate markers
-         self.Locationlist().forEach(makeMarker);
-     };*/
-
     function hideInfoWindows() {
         self.Locationlist().forEach(function(LocationItem) {
             LocationItem.infoWindow.close();
@@ -291,7 +250,7 @@ var ViewModel = function() {
 
 };
 
-// Either create or use the existing venue data's
+// For loading the Viewmodel afer the map is load asynchronously
 function launchMap() {
     if (!localStorage.initialPlaces) {
         initMap();
@@ -302,6 +261,7 @@ function launchMap() {
     }
 }
 
+// Either create or use the existing venue data's
 function applyKo() {
     ko.applyBindings(new ViewModel());
     $('#content').fadeIn("fast");
