@@ -2,8 +2,6 @@
     'use strict';
 }());
 
-initMap();
-
 // GOBAL VARIABLES
 var map;
 var markers = [];
@@ -151,6 +149,7 @@ var ViewModel = function() {
     });
 
 
+
     // Create markers
     this.Locationlist().forEach(makeMarker);
 
@@ -205,46 +204,83 @@ var ViewModel = function() {
 
     };
 
-    // For autocomplete and search filter in the search bar
-    var matchedLocation = [];
+    // Autocomplete with ko.js
 
-    // Using jquery autocomplete
-    $("#searchBar").autocomplete({
-        // Defining source with all the location name's
-        source: self.locationNameAuto,
-        minLength: 0,
-        response: function(event, locationName) {
-            if (locationName.content) {
-                matchedLocation = [];
-                // As we only need the data response, the menu is always closed
-                $("#searchBar").autocomplete("close");
-                // Collecting id's of matched locations
-                for (var i = 0; i < locationName.content.length; i++) {
-                    matchedLocation.push(locationName.content[i].id);
-                }
-                showMatchedLocations(matchedLocation);
-            } else {
-                showMatchedLocations("all");
+    // the user text
+    this.searchText = ko.observable("");
+
+    this.availableLocations = function(e) {
+        var n = "";
+        var locationMatched = ko.observableArray();
+        var inputText = self.searchText().toLowerCase();
+        // filter if there a match between string and the array of text locations
+        self.locationNameAuto.forEach(function(location) {
+            n = (location.label.toLowerCase()).indexOf(inputText);
+            if (n !== -1) {
+                locationMatched.push(location.id);
             }
-        }
-    });
+        });
+
+        showMatchedLocationsko(locationMatched);
+    };
 
     // Renders the filtered markers
-    var showMatchedLocations = function(matchedLocation) {
+    var showMatchedLocationsko = function(locationMatched) {
         reloadMarkers();
         self.Locationlist().forEach(function(LocationItem) {
-            // Check si id same as matchedLocation array
-            if (matchedLocation === "all") {
-                LocationItem.isVisible(true);
-            } else if ($.inArray(LocationItem.id(), matchedLocation) === -1) {
-                LocationItem.isVisible(false);
-            } else {
-                LocationItem.isVisible(true);
-            }
+            // if the id is in the location list
+            var checks = ko.utils.arrayFirst(locationMatched(), function(item) {
+                return item === LocationItem.id();
+            });
+
+            // Location become visible or not. checks retruen true or false
+            LocationItem.isVisible(checks);
+
         });
         // Recreate markers
         self.Locationlist().forEach(makeMarker);
     };
+
+    /* // For autocomplete and search filter in the search bar
+     var matchedLocation = [];
+
+     // Using jquery autocomplete
+     $("#searchBar").autocomplete({
+         // Defining source with all the location name's
+         source: self.locationNameAuto,
+         minLength: 0,
+         response: function(event, locationName) {
+             if (locationName.content) {
+                 matchedLocation = [];
+                 // As we only need the data response, the menu is always closed
+                 $("#searchBar").autocomplete("close");
+                 // Collecting id's of matched locations
+                 for (var i = 0; i < locationName.content.length; i++) {
+                     matchedLocation.push(locationName.content[i].id);
+                 }
+                 showMatchedLocations(matchedLocation);
+             } else {
+                 showMatchedLocations("all");
+             }
+         }
+     });
+
+     // Renders the filtered markers
+     var showMatchedLocations = function(matchedLocation) {
+         reloadMarkers();
+         self.Locationlist().forEach(function(LocationItem) {
+             // Check si id same as matchedLocation array
+             if (matchedLocation === "all") {
+                 LocationItem.isVisible(true);
+             } else if ($.inArray(LocationItem.id(), matchedLocation) === -1) {
+                 LocationItem.isVisible(false);
+             } else {
+                 LocationItem.isVisible(true);
+             }
+         });
+         // Recreate markers
+         self.Locationlist().forEach(makeMarker);
+     };*/
 
     function hideInfoWindows() {
         self.Locationlist().forEach(function(LocationItem) {
@@ -256,10 +292,14 @@ var ViewModel = function() {
 };
 
 // Either create or use the existing venue data's
-if (!localStorage.initialPlaces) {
-    getInitialPlaces();
-} else {
-    applyKo();
+function launchMap() {
+    if (!localStorage.initialPlaces) {
+        initMap();
+        getInitialPlaces();
+    } else {
+        initMap();
+        applyKo();
+    }
 }
 
 function applyKo() {
@@ -276,15 +316,22 @@ function initMap() {
         mapTypeControl: false,
     });
 
+
+
     // Custom Styles
     map.set('styles', [{ "featureType": "administrative", "elementType": "labels.text.fill", "stylers": [{ "color": "#444444" }] }, { "featureType": "landscape", "elementType": "all", "stylers": [{ "color": "#f2f2f2" }] }, { "featureType": "poi", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "road", "elementType": "all", "stylers": [{ "saturation": -100 }, { "lightness": 45 }] }, { "featureType": "road.highway", "elementType": "all", "stylers": [{ "visibility": "simplified" }] }, { "featureType": "road.highway", "elementType": "geometry", "stylers": [{ "visibility": "simplified" }, { "color": "#ff6a6a" }, { "lightness": "0" }] }, { "featureType": "road.highway", "elementType": "labels.text", "stylers": [{ "visibility": "on" }] }, { "featureType": "road.highway", "elementType": "labels.icon", "stylers": [{ "visibility": "on" }] }, { "featureType": "road.arterial", "elementType": "all", "stylers": [{ "visibility": "on" }] }, { "featureType": "road.arterial", "elementType": "geometry.fill", "stylers": [{ "color": "#ff6a6a" }, { "lightness": "75" }] }, { "featureType": "road.arterial", "elementType": "labels.icon", "stylers": [{ "visibility": "off" }] }, { "featureType": "road.local", "elementType": "geometry.fill", "stylers": [{ "lightness": "75" }] }, { "featureType": "transit", "elementType": "all", "stylers": [{ "visibility": "off" }] }, { "featureType": "transit.line", "elementType": "all", "stylers": [{ "visibility": "on" }] }, { "featureType": "transit.station.bus", "elementType": "all", "stylers": [{ "visibility": "on" }] }, { "featureType": "transit.station.rail", "elementType": "all", "stylers": [{ "visibility": "on" }] }, { "featureType": "transit.station.rail", "elementType": "labels.icon", "stylers": [{ "weight": "0.01" }, { "hue": "#ff0028" }, { "lightness": "0" }] }, { "featureType": "water", "elementType": "all", "stylers": [{ "visibility": "on" }, { "color": "#80e4d8" }, { "lightness": "25" }, { "saturation": "-23" }] }]);
 
 }
 
 // Responsive map
+
+// Calculates the heights of elements in the page above the maps. Want the map to fit right in
+var totalUpElementsHeights = $("#search").height() + $("#logo").height() + $("#content").height() + ($(window).height()) / 6;
+$("#gmap").height($(window).height() - totalUpElementsHeights);
+
 $(window).resize(function() {
-    console.log('resize');
-    google.maps.event.trigger(map, "resize");
+    var totalUpElementsHeights = $("#search").height() + $("#logo").height() + $("#content").height() + ($(window).height()) / 6;
+    $("#gmap").height($(window).height() - totalUpElementsHeights);
 });
 
 function makeMarker(locationData) {
