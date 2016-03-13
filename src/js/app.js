@@ -286,11 +286,11 @@ function initMap() {
 // Responsive map
 
 // Calculates the heights of elements in the page above the maps. Want the map to fit right in
-var totalUpElementsHeights = $("#search").height() + $("#logo").height() + $("#content").height() + ($(window).height()) / 6;
+var totalUpElementsHeights = $("#search").height() + $("#logo").height() + $("#content").height() + ($(window).height()) / 4;
 $("#gmap").height($(window).height() - totalUpElementsHeights);
 
 $(window).resize(function() {
-    var totalUpElementsHeights = $("#search").height() + $("#logo").height() + $("#content").height() + ($(window).height()) / 6;
+    var totalUpElementsHeights = $("#search").height() + $("#logo").height() + $("#content").height() + ($(window).height()) / 4;
     $("#gmap").height($(window).height() - totalUpElementsHeights);
 });
 

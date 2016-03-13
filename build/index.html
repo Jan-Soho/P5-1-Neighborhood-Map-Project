@@ -15,11 +15,10 @@
 
 <body>
     <div id="main">
-        <div class="log"></div>
         <div id="search">
-        <!-- Clicking on logo will delete local storage and favorite settings -->
-            <a href="#"><img onClick="(function(){localStorage.clear();window.location.reload()})()" id="logo" src="img/logo2.png"></a>
-            <input type="text" id="searchBar"></input>
+            <!-- Clicking on logo will delete local storage and favorite settings -->
+            <a class="logo" href="#"><img onClick="(function(){localStorage.clear();window.location.reload()})()" id="logo" src="img/logo2.png"></a>
+            <input id="searchBar" type="search" placeholder="" data-bind="textInput: searchText, event: { keyup: availableLocations }"></input>
         </div>
         <h2 class="error-msg">Oups... App won't load :( Please try later !</h2>
         <div id="content">
@@ -28,16 +27,15 @@
                     <li class="locationItem" data-bind="visible: isVisible, css: { active: $parent.selectedLocation() == $data }"><a class="locationItem-links" href="#"><span data-bind="text: name, click: $parent.showLocation"></span><span class="fav-star"><img class="rating-img" data-bind="click: $parent.toggleMakeFav, attr: { src: starIcon }"></span></a></li>
                 </ul>
             </div>
-
         </div>
         <div id="gmap"></div>
     </div>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKDK88y5yA1_isN_gmhFSf0Ovo_EffQsM&libraries=places"></script>
     <script src="js/lib/jquery-2.2.1.min.js"></script>
     <script src="js/lib/jquery-ui.min.js"></script>
     <script src="https://cdn.rawgit.com/noelboss/featherlight/1.3.5/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/lib/knockout-3.4.0.js"></script>
     <script src="js/app.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKDK88y5yA1_isN_gmhFSf0Ovo_EffQsM&libraries=places&callback=launchMap" async defer></script>
 </body>
 
 </html>

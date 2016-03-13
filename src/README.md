@@ -4,8 +4,8 @@ For finding cool places in my neighborhood !
 
 How to run the application
 ------------------------------------
-* Download GitHub repository from <https://github.com/Jan-Soho/P5-1-Neighborhood-Map-Project>.
-* Open the index.html file from the build folder with your browser.
+* Download GitHub repository from <https://github.com/srbrenton/myhood/>.
+* Open the index.html file with your browser.
 * All info's are shown using foursquare.com third-party API.
 * Click on a list element or icon on the google map to open an information window for the location.
 * You can add a location as favorite. Favorites are saved in the localeStorage of your browser.
@@ -17,7 +17,7 @@ Build tools
 ------------------------------------
 * Grunt watch plugin is used to automatically minify CSS and JS files saved in the dist folder.
 * Images have been optimized and resized using an online tool (kraken.io) and Photoshop, not with grunt, as I get better results with the two.
-* style.css and google font code merged and inlined in index.html from build folder.
+* style.css and google font code merged and inlined in index.html from dist folder.
 
 Library's and plugin's
 ------------------------------------
