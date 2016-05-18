@@ -4,7 +4,7 @@ For finding cool places in my neighborhood !
 
 How to run the application
 ------------------------------------
-* Download GitHub repository from <https://github.com/srbrenton/myhood/>.
+* Download GitHub repository from <https://github.com/Jan-Soho/P5-1-Neighborhood-Map-Project/>.
 * Open the index.html file with your browser.
 * All info's are shown using foursquare.com third-party API.
 * Click on a list element or icon on the google map to open an information window for the location.
