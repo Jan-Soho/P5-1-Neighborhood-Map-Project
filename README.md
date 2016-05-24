@@ -1,6 +1,6 @@
 P5-1: Neighborhood Map Project
 ==============================
-For finding cool places in my neighborhood !
+For finding cool places in my neighborhood ! A fully responsive single page application made with Knockout JS.
 
 How to run the application
 ------------------------------------
