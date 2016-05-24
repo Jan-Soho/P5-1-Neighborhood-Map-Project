@@ -2,6 +2,8 @@ P5-1: Neighborhood Map Project
 ==============================
 For finding cool places in my neighborhood ! A fully responsive single page application made with Knockout JS.
 
+![spa-screen](http://jan-soho.github.io/P5-1-Neighborhood-Map-Project/src/img/neighborhood.png)
+
 How to run the application
 ------------------------------------
 * Download GitHub repository from <https://github.com/Jan-Soho/P5-1-Neighborhood-Map-Project>.
